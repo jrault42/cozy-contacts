@@ -8,7 +8,6 @@ import Overlay from 'cozy-ui/transpiled/react/Overlay'
 import SelectBox from 'cozy-ui/transpiled/react/SelectBox'
 
 import SelectedLetterContext from '../Contexts/SelectedLetter'
-import container from '../ContactCard/ContactGroupsContainer'
 
 import CustomMenu from './SelectBox/Menu'
 import CustomSelectContainer from './SelectBox/SelectContainer'
@@ -34,8 +33,6 @@ export class LetterSelectClass extends React.Component {
     this.setState({ menuIsOpen: false })
   }
 
-
-
   handleChange = props => {
     const { onChange, closeMenuOnSelect } = this.props
 
@@ -51,7 +48,6 @@ export class LetterSelectClass extends React.Component {
       value,
       allLetters,
       styles,
-      isMulti,
       noOptionsMessage,
       components,
       className,
@@ -73,7 +69,7 @@ export class LetterSelectClass extends React.Component {
         )}
         <SelectBox
           classNamePrefix="react-select"
-          isMulti={isMulti}
+          isMulti={false}
           withCheckbox={false}
           menuIsOpen={menuIsOpen}
           blurInputOnSelect={true}
@@ -108,13 +104,12 @@ LetterSelectClass.propTypes = {
   value: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   // to customize react-select elements
   components: PropTypes.object,
-  // to define if it is possible to select more than one option
-  isMulti: PropTypes.bool,
   // noOptionsMessage is used to show a message when there is no options in the menu list
   noOptionsMessage: PropTypes.func,
   className: PropTypes.string,
   closeMenuOnSelect: PropTypes.bool,
-  menuPosition: PropTypes.oneOf(['fixed', 'absolute'])
+  menuPosition: PropTypes.oneOf(['fixed', 'absolute']),
+  refs: PropTypes.object.isRequired
 }
 
 LetterSelectClass.defaultProps = {
@@ -124,8 +119,7 @@ LetterSelectClass.defaultProps = {
 }
 
 const LetterSelect = flow(
-  withClient,
-  container
+  withClient
 )(LetterSelectClass)
 
 LetterSelect.propTypes = {

@@ -8,8 +8,6 @@ import { ControlDefault } from 'cozy-ui/transpiled/react/SelectBox'
 import Input from 'cozy-ui/transpiled/react/Input'
 import flag from 'cozy-flags'
 import { categorizeContacts } from '../helpers/contactList'
-
-
 import SelectedGroupContext from './Contexts/SelectedGroup'
 import SelectedLetterContext from './Contexts/SelectedLetter'
 import SearchContext from './Contexts/Search'
@@ -64,10 +62,10 @@ const ControlDefaultWithTestId2 = ({ ...props }) => {
   )
 }
 
-export const ContentResult = ({ contacts, allGroups }) => {
+export const ContentResult = ({ contacts, refs, allGroups }) => {
   const { t } = useI18n()
   const { selectedGroup, setSelectedGroup } = useContext(SelectedGroupContext)
-  //const { selectedLetter, setSelectedLetter } = useContext(SelectedLetterContext)
+  const { selectedLetter, setSelectedLetter } = useContext(SelectedLetterContext)
   const { searchValue } = useContext(SearchContext)
   const [filteredContacts, setFilteredContacts] = useState(contacts)
   const { isMobile } = useBreakpoints()
@@ -129,9 +127,10 @@ export const ContentResult = ({ contacts, allGroups }) => {
 
               <LetterSelect
                 className="u-w-100 u-maw-6"
+                refs={refs}
                 allLetters={lettersSelectOptions}
-                value={lettersSelectOptions[0]}
-                onChange={"toto"}
+                value={selectedLetter}
+                onChange={setSelectedLetter}
                 noOptionsMessage={() => t('filter.no-letter')}
                 closeMenuOnSelect={true}
                 components={{
@@ -144,7 +143,7 @@ export const ContentResult = ({ contacts, allGroups }) => {
         />
       )}
       <Content>
-        <ContactsList contacts={filteredContacts} />
+        <ContactsList refs={refs} contacts={filteredContacts} />
       </Content>
     </>
   )
@@ -152,6 +151,7 @@ export const ContentResult = ({ contacts, allGroups }) => {
 
 ContentResult.propTypes = {
   contacts: PropTypes.array.isRequired,
+  refs: PropTypes.object.isRequired,
   allGroups: PropTypes.array.isRequired
 }
 
