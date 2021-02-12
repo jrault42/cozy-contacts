@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 
-import { groups } from '../../helpers/testData'
+import { groups, letters } from '../../helpers/testData'
 import LetterSelect from './LetterSelect'
 import AppLike from '../../tests/Applike'
 import Control from './SelectBox/Control'
@@ -10,9 +10,9 @@ const setup = () => {
   const root = render(
     <AppLike>
       <LetterSelect
-        value={[letters[0]]}
+        value={{name: 'Go to letter...'}}
         allLetters={letters}
-        onChange={() => {}}
+        onChange={() => {console.log('Coucou')}}
         components={{ Control }}
       />
     </AppLike>
@@ -25,7 +25,7 @@ describe('LetterSelect', () => {
     const { root } = setup()
     const { getByText } = root
 
-    fireEvent.click(getByText('Manage groups'))
-    groups.map(group => expect(getByText(group.name)).toBeTruthy())
+    fireEvent.click(getByText('Go to letter...'))
+    letters.map(letter => expect(getByText(letter.name)).toBeTruthy())
   })
 })
